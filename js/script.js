@@ -87,4 +87,7 @@ memberFormElm.addEventListener("submit", function(event){
   teamMembers.push(newMember);
   const card = createCardMember(newMember);
   containerCard.innerHTML += card;
+
+  // Resetta il form
+  teamForm.reset();
 });

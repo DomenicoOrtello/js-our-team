@@ -9,3 +9,12 @@ h1{
 #mail_color{
    color: #6ECBF2;
 }
+
+.card-body{
+    color: white;
+}
+
+img{
+    height: 100%;
+    max-width: 120px;
+}

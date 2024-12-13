@@ -40,21 +40,51 @@ const teamMembers = [
 
 // DOM elements
 const containerCard = document.querySelector(".container-cards");
+const memberFormElm = document.getElementById("teamForm")
+const nameElm = document.getElementById("name")
+const roleElm = document.getElementById("role")
+const emailElm = document.getElementById("email")
+const imageElm = document.getElementById("image")
 
 // Stampa delle card
+function createCardMember(member) {
+  const {name, role, email, img} = member;
+  const card = `
+  <div class="card-team bg-dark d-flex">
+  <div class="card-img">
+      <img src="./${img}" alt="./${img}">
+  </div>
+  <div class="card-info text-light me-5 p-2">
+      <h3>${name}</h3>
+      <p>${role}</p>
+      <p id="mail_color">${email}</p>
+  </div>
+</div>` ;
+return card;
+}
+
 let listItem =""
 for (let i = 0; i < teamMembers.length; i++) {
   const {name, role, email, img} = teamMembers[i];
-  listItem +=`
-  <div class="card-team bg-dark d-flex">
-  <div class="card-img">
-      <img src="./img/male1.png" alt="image">
-  </div>
-  <div class="card-info text-light me-5 p-2">
-      <h3>Marco Bianchi</h3>
-      <p>Designer</p>
-      <p id="mail_color">marcobianchi@team.com</p>
-  </div>
-</div>`
+  listItem += createCardMember(teamMembers[i]);
 }
 containerCard.innerHTML = listItem;
+
+
+// DOM EVENTS
+memberFormElm.addEventListener("submit", function(event){
+  event.preventDefault();
+  const name = nameElm.value;
+  const role = roleElm.value;
+  const email = emailElm.value;
+  const image = imageElm.value;
+  const newMember = {
+    name,
+    role,
+    email,
+    image
+  }
+  teamMembers.push(newMember);
+  const card = createCardMember(newMember);
+  containerCard.innerHTML += card;
+});

@@ -37,57 +37,72 @@ const teamMembers = [
   }
 ];
 
-
 // DOM elements
 const containerCard = document.querySelector(".container-cards");
-const memberFormElm = document.getElementById("teamForm")
-const nameElm = document.getElementById("name")
-const roleElm = document.getElementById("role")
-const emailElm = document.getElementById("email")
-const imageElm = document.getElementById("image")
+const memberFormElm = document.getElementById("teamForm");
+const nameElm = document.getElementById("name");
+const roleElm = document.getElementById("role");
+const emailElm = document.getElementById("email");
+const imageElm = document.getElementById("image");
+const resetButton = document.getElementById("resetButton");
 
-// Stampa delle card
+// Funzione per creare una card
 function createCardMember(member) {
-  const {name, role, email, img} = member;
-  const card = `
-  <div class="card-team bg-dark d-flex">
-  <div class="card-img">
-      <img src="./${img}" alt="./${img}">
-  </div>
-  <div class="card-info text-light me-5 p-2">
-      <h3>${name}</h3>
-      <p>${role}</p>
-      <p id="mail_color">${email}</p>
-  </div>
-</div>` ;
-return card;
+    const { name, role, email, img } = member;
+    return `
+    <div class="card-team bg-dark d-flex">
+        <div class="card-img">
+            <img src="${img}" alt="Image of ${name}">
+        </div>
+        <div class="card-info text-light me-5 p-2">
+            <h3>${name}</h3>
+            <p>${role}</p>
+            <p id="mail_color">${email}</p>
+        </div>
+    </div>`;
 }
 
-let listItem =""
-for (let i = 0; i < teamMembers.length; i++) {
-  const {name, role, email, img} = teamMembers[i];
-  listItem += createCardMember(teamMembers[i]);
+// Funzione per aggiornare il contenitore delle card
+function updateCards() {
+    containerCard.innerHTML = "";
+    teamMembers.forEach(member => {
+        containerCard.innerHTML += createCardMember(member);
+    });
 }
-containerCard.innerHTML = listItem;
 
+// Stampa delle card iniziali
+updateCards();
 
-// DOM EVENTS
-memberFormElm.addEventListener("submit", function(event){
-  event.preventDefault();
-  const name = nameElm.value;
-  const role = roleElm.value;
-  const email = emailElm.value;
-  const image = imageElm.value;
-  const newMember = {
-    name,
-    role,
-    email,
-    image
-  }
-  teamMembers.push(newMember);
-  const card = createCardMember(newMember);
-  containerCard.innerHTML += card;
+// Invio del form
+memberFormElm.addEventListener("submit", function (event) {
+    event.preventDefault();
 
-  // Resetta il form
-  teamForm.reset();
+    const name = nameElm.value;
+    const role = roleElm.value;
+    const email = emailElm.value;
+    const img = imageElm.value;
+
+    const newMember = { name, role, email, img };
+
+    teamMembers.push(newMember);
+    updateCards();
+
+    // Mostra il pulsante di reset
+    resetButton.classList.remove("d-none");
+
+    memberFormElm.reset();
 });
+
+// Reset ultima carta aggiunta
+resetButton.addEventListener("click", function () {
+    if (teamMembers.length > 0) {
+        teamMembers.pop();
+
+        updateCards();
+
+        if (teamMembers.length <= 6) {
+            resetButton.classList.add("d-none");
+        }
+    }
+});
+

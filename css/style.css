@@ -1,3 +1,9 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
 body{
     font-family: "Fredoka", serif;
 }
@@ -10,11 +16,19 @@ h1{
    color: #6ECBF2;
 }
 
-.card-body{
-    color: white;
-}
-
 img{
     height: 100%;
-    max-width: 100%;
+    max-width: 130px;
+}
+
+.container-cards{
+    gap: 15px;
+}
+
+.card-team{
+    width: calc(100% / 3) - 15px;
+}
+
+.card-info{
+    width: 200px;
 }
